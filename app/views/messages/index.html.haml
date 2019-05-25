@@ -1,56 +1,26 @@
 .wrapper
-
-  = render 'shared/side_bar'
-
+  =render partial: "shared/side_bar"
   .chat
     .header
-      .left-header
+      .left-header{data: {group: @group.id}}
         .left-header__title
-          グループ名
+          = @group.name
         %ul.left-header__members
           Member：
           %li.member
-            メンバー名
-          %li.member
-            メンバー名
-          %li.member
-            メンバー名
+            - @group.group_users.each do |group_user|
+              = group_user.user.name
       .right-header
-        .right-header__button
-          Edit
+        %a.right-header__button
+          = link_to edit_group_path(@group.id) do
+            Edit
     .messages
-      .message
-        .upper-message
-          .upper-message__user-name
-            メンバー
-          .upper-message__date
-            2017/04/04
-        .lower-meesage
-          .lower-message__content
-            メッセージ
-      .message
-        .upper-message
-          .upper-message__user-name
-            メンバー
-          .upper-message__date
-            2017/04/04
-        .lower-meesage
-          .lower-message__content
-            メッセージ
-      .message
-        .upper-message
-          .upper-message__user-name
-            メンバー
-          .upper-message__date
-            2017/04/04
-        .lower-meesage
-          .lower-message__content
-            メッセージ
+      = render @messages
     .form
-      %form
-        %input.form__message
+      = form_for [@group, @message] do |f|
+        = f.text_field :content, class: 'form__message', id: 'new_message', placeholder: 'type a message'
         .form__mask
-          %label.form__mask__image
+          = f.label :image, class: 'form__mask__image' do
             = fa_icon 'picture-o', class: 'icon'
-            %input.hidden{type: 'file'}
-        %input.form__submit{type: 'submit', value: 'Send'}
+            = f.file_field :image, class: 'hidden'
+        = f.submit 'Send', class: 'form__submit'

@@ -1,10 +1,10 @@
 .side-bar
   .header
     %h3.header__name
-      ユーザーネーム
+      = current_user.name
     %ul.header__lists
       %li.list
-        = link_to do
+        = link_to new_group_path do
           = fa_icon 'pencil-square-o', class: 'icon'
       %li.list
         = link_to edit_user_path(current_user) do
@@ -12,17 +12,9 @@
 
   .groups
     .group
-      .group__name
-        グループ名
-      .group__message
-        新着メッセージ
-    .group
-      .group__name
-        グループ名
-      .group__message
-        新着メッセージ
-    .group
-      .group__name
-        グループ名
-      .group__message
-        新着メッセージ
+      - current_user.groups.each do |group|
+        = link_to group_messages_path(group) do
+          .group__name
+            = group.name
+          .group__message
+            メッセージはまだありません。
