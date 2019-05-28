@@ -36,7 +36,7 @@ $(function () {
       .done(function (data) {
         var html = buildHTML(data);
         $('.messages').append(html);
-        $('.form__submit').prop("disabled", false);
+        $('.form__submit').prop("disabled", false);z
         $('.messages').animate({ scrollTop: $('.messages')[0].scrollHeight }, 'fast');
         $("form")[0].reset();
       })
@@ -70,5 +70,14 @@ $(function () {
       clearInterval(reloadMessages);
     }
   }, 5000);
+  
+  $(function () {
+    $('form').submit(function () {
+      if ($('.form').val() == '') {
+        alert('空欄です！');
+        return false;
+      }
+    });
+  });
 
 });
