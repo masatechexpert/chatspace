@@ -71,13 +71,4 @@ $(function () {
     }
   }, 5000);
   
-  $(function () {
-    $('form').submit(function () {
-      if ($('.form').val() == '') {
-        alert('空欄です！');
-        return false;
-      }
-    });
-  });
-
 });
