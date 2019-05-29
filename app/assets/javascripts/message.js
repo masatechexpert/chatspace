@@ -44,7 +44,6 @@ $(function () {
       .fail(function () {
         alert('メッセージの送信に失敗しました');
       })
-    return false;
   });
 
   var reloadMessages = setInterval(function () {
