@@ -36,7 +36,7 @@ $(function () {
       .done(function (data) {
         var html = buildHTML(data);
         $('.messages').append(html);
-        $('.form__submit').prop("disabled", false);z
+        $('.form__submit').prop("disabled", false);
         $('.messages').animate({ scrollTop: $('.messages')[0].scrollHeight }, 'fast');
         $("form")[0].reset();
       })
@@ -44,6 +44,7 @@ $(function () {
       .fail(function () {
         alert('メッセージの送信に失敗しました');
       })
+    return false;
   });
 
   var reloadMessages = setInterval(function () {
@@ -70,5 +71,5 @@ $(function () {
       clearInterval(reloadMessages);
     }
   }, 5000);
-  
+
 });
