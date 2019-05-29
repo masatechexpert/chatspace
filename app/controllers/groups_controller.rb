@@ -1,38 +1,36 @@
-class GroupsController < ApplicationController
-   before_action :set_group, only: [:edit, :update]
+class MessagesController < ApplicationController
+  before_action :set_group
 
   def index
-  end
-
-  def new
-    @group = Group.new
-    @group.users << current_user
+    @message = Message.new
+    @messages = @group.messages.includes(:user)
+      respond_to do |format|
+        format.html
+        format.json
+      end
   end
 
   def create
-    @group = Group.new(group_params)
-    if @group.save
-      redirect_to root_path, notice: 'グループを作成しました'
+    @message = @group.messages.new(message_params)
+    if @message.save
+      respond_to do |format|
+        format.html {redirect_to group_messages_path(@group), notice: 'メッセージが送信されました'}
+        format.json
+      end
     else
-      render :new
-    end
-  end
-
-  def update
-    if @group.update(group_params)
-      redirect_to group_messages_path(@group), notice: 'グループを編集しました'
-    else
-      render :edit
+      @messages = @group.messages.includes(:user)
+      flash.now[:alert] = 'メッセージを入力してください。'
+      render :index
     end
   end
 
   private
-  def group_params
-    params.require(:group).permit(:name, { user_ids: [] })
+
+  def message_params
+    params.require(:message).permit(:content, :image).merge(user_id: current_user.id)
   end
 
-   def set_group
-    @group = Group.find(params[:id])
+  def set_group
+    @group = Group.find(params[:group_id])
   end
-
 end
